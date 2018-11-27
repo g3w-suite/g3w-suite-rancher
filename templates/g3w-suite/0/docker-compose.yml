@@ -54,8 +54,10 @@ services:
     image: jancelin/qgis-server:2.18LTR
     #hostname: qgis-server
     container_name: qgisserver4${COMPOSE_PROJECT_NAME}
+    labels:
+      io.rancher.sidekicks: nginx
     volumes_from:
-      - django
+      - nginx
 
   nginx:
     image: g3wsuite/nginx:uwsgi
@@ -66,7 +68,7 @@ services:
     labels:
         org.gis3w.component: nginx
         org.gis3w.instance.name: g3wsuite
-
+        io.rancher.sidekicks: django
     volumes_from:
       - django
     depends_on:
