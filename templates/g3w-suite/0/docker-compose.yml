@@ -70,10 +70,9 @@ services:
     labels:
         org.gis3w.component: nginx
         org.gis3w.instance.name: g3wsuite
-        io.rancher.sidekicks: django
-
+        io.rancher.sidekicks: qgisserver
     volumes_from:
-      - django
+      - qgiserver
     depends_on:
       - django
     ports:
