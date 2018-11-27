@@ -72,7 +72,7 @@ services:
         org.gis3w.instance.name: g3wsuite
         io.rancher.sidekicks: qgisserver
     volumes_from:
-      - qgiserver
+      - qgisserver
     depends_on:
       - django
     ports:
