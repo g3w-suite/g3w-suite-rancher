@@ -1,0 +1,18 @@
+---
+version: '2'
+catalog:
+    name: "G3W-SUITE"
+    version: "v1.0"
+    description: "Publish your QGIS project to the web"
+    uuid: g3w-suite-0
+    minimum_rancher_version: 'v1.6'
+
+services:
+    db:
+        scale: 1
+    django:
+        scale: 1
+    qgisserver:
+        scale: 1
+    nginx:
+        scale: 1

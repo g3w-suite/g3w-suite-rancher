@@ -1,0 +1,86 @@
+version: '2.2'
+services:
+
+  db:
+    image: kartoza/postgis:9.6-2.4
+    restart: unless-stopped
+    container_name: db4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.gis3w.component: db
+        org.gis3w.instance.name: g3wsuite
+    ports:
+      - 25432:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - dbbackups:/pg_backups
+    environment:
+      - POSTGRES_USER: g3wsuite
+      - POSTGRES_PASS: g3wsuite
+      - POSTGRES_DBNAME: g3w_suite
+      - ALLOW_IP_RANGE: 0.0.0.0/0
+
+  django:
+    restart: unless-stopped
+    image: g3wsuite/g3w-suite
+    container_name: django4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.gis3w.component: django
+        org.gis3w.instance.name: g3wsuite
+    depends_on:
+      - db
+    command: python g3w-admin/manage.py runserver 0.0.0.0:8000
+    #ports:
+      #- 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      #- /home/walter/tmp/geodata:/djangoassets/geodata
+      - djangoassets:/djangoassets
+    environment:
+      - G3WADMIN_LOCAL_MORE_APPS: 
+      - G3WSUITE_DATABASE_NAME: g3w_suite
+      - G3WSUITE_DATABASE_USER: g3wsuite
+      - G3WSUITE_DATABASE_PASSWORD: g3wsuite
+      - G3WSUITE_DATABASE_HOST: db
+      - G3WSUITE_DATABASE_PORT: 5432
+      - G3WSUITE_QDJANGO_SERVER_URL: http://qgisserver/cgi-bin/qgis_mapserv.fcgi
+      - CMD: uwsgi --ini uwsgi.ini
+
+  qgisserver:
+    restart: unless-stopped
+    image: jancelin/qgis-server:2.18LTR
+    #hostname: qgis-server
+    container_name: qgisserver4${COMPOSE_PROJECT_NAME}
+    volumes_from:
+      - django
+
+  nginx:
+    image: g3wsuite/nginx:uwsgi
+    restart: unless-stopped
+    container_name: nginx4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.gis3w.component: nginx
+        org.gis3w.instance.name: g3wsuite
+
+    volumes_from:
+      - django
+    depends_on:
+      - django
+    ports:
+      - 80:80
+
+
+volumes:
+  dbdata:
+    name: ${COMPOSE_PROJECT_NAME}-dbdata
+  dbbackups:
+    name: ${COMPOSE_PROJECT_NAME}-dbbackups
+  djangoassets:
+    name: ${COMPOSE_PROJECT_NAME}-djangoassets
+  qgisproject:
+    name: ${COMPOSE_PROJECT_NAME}-qgisproject

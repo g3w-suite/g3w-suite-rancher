@@ -1,0 +1,8 @@
+name: "G3W-SUITE"
+description: |
+    A framework for public QGIS project on a webgis.
+version: "v1.0"
+category: "WEBGIS, GIS"
+maintainer: "Gis3W SNC"
+license: "MPL"
+projectURL: "https://github.com/g3w-suite"
