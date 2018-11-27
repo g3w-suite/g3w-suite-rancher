@@ -40,7 +40,7 @@ services:
       #- /home/walter/tmp/geodata:/djangoassets/geodata
       - djangoassets:/djangoassets
     environment:
-      G3WADMIN_LOCAL_MORE_APPS: 
+      G3WADMIN_LOCAL_MORE_APPS:
       G3WSUITE_DATABASE_NAME: g3w_suite
       G3WSUITE_DATABASE_USER: g3wsuite
       G3WSUITE_DATABASE_PASSWORD: g3wsuite
@@ -53,6 +53,10 @@ services:
     restart: unless-stopped
     image: jancelin/qgis-server:2.18LTR
     #hostname: qgis-server
+    labels:
+        org.gis3w.component: qgisserver
+        org.gis3w.instance.name: g3wsuite
+        io.rancher.sidekicks: django
     container_name: qgisserver4${COMPOSE_PROJECT_NAME}
     volumes_from:
       - django
@@ -66,6 +70,7 @@ services:
     labels:
         org.gis3w.component: nginx
         org.gis3w.instance.name: g3wsuite
+        io.rancher.sidekicks: django
 
     volumes_from:
       - django
