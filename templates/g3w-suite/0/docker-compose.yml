@@ -55,7 +55,7 @@ services:
     #hostname: qgis-server
     container_name: qgisserver4${COMPOSE_PROJECT_NAME}
     labels:
-      io.rancher.sidekicks: nginx, django
+      io.rancher.sidekicks: django
     volumes_from:
       - django
 
