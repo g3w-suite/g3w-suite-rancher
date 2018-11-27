@@ -16,10 +16,10 @@ services:
       - dbdata:/var/lib/postgresql/data
       - dbbackups:/pg_backups
     environment:
-      - POSTGRES_USER: g3wsuite
-      - POSTGRES_PASS: g3wsuite
-      - POSTGRES_DBNAME: g3w_suite
-      - ALLOW_IP_RANGE: 0.0.0.0/0
+      POSTGRES_USER: g3wsuite
+      POSTGRES_PASS: g3wsuite
+      POSTGRES_DBNAME: g3w_suite
+      ALLOW_IP_RANGE: 0.0.0.0/0
 
   django:
     restart: unless-stopped
@@ -40,14 +40,14 @@ services:
       #- /home/walter/tmp/geodata:/djangoassets/geodata
       - djangoassets:/djangoassets
     environment:
-      - G3WADMIN_LOCAL_MORE_APPS: 
-      - G3WSUITE_DATABASE_NAME: g3w_suite
-      - G3WSUITE_DATABASE_USER: g3wsuite
-      - G3WSUITE_DATABASE_PASSWORD: g3wsuite
-      - G3WSUITE_DATABASE_HOST: db
-      - G3WSUITE_DATABASE_PORT: 5432
-      - G3WSUITE_QDJANGO_SERVER_URL: http://qgisserver/cgi-bin/qgis_mapserv.fcgi
-      - CMD: uwsgi --ini uwsgi.ini
+      G3WADMIN_LOCAL_MORE_APPS: 
+      G3WSUITE_DATABASE_NAME: g3w_suite
+      G3WSUITE_DATABASE_USER: g3wsuite
+      G3WSUITE_DATABASE_PASSWORD: g3wsuite
+      G3WSUITE_DATABASE_HOST: db
+      G3WSUITE_DATABASE_PORT: 5432
+      G3WSUITE_QDJANGO_SERVER_URL: http://qgisserver/cgi-bin/qgis_mapserv.fcgi
+      CMD: uwsgi --ini uwsgi.ini
 
   qgisserver:
     restart: unless-stopped
