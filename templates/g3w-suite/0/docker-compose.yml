@@ -53,10 +53,6 @@ services:
     restart: unless-stopped
     image: jancelin/qgis-server:2.18LTR
     #hostname: qgis-server
-    labels:
-        org.gis3w.component: qgisserver
-        org.gis3w.instance.name: g3wsuite
-        io.rancher.sidekicks: django
     container_name: qgisserver4${COMPOSE_PROJECT_NAME}
     volumes_from:
       - django
@@ -70,9 +66,9 @@ services:
     labels:
         org.gis3w.component: nginx
         org.gis3w.instance.name: g3wsuite
-        #io.rancher.sidekicks: django
-    #volumes_from:
-      #- django
+
+    volumes_from:
+      - django
     depends_on:
       - django
     ports:
