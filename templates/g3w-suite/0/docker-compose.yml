@@ -69,8 +69,8 @@ services:
         org.gis3w.component: nginx
         org.gis3w.instance.name: g3wsuite
         #io.rancher.sidekicks: django
-    volumes_from:
-      - django
+    #volumes_from:
+      #- django
     depends_on:
       - django
     ports:
