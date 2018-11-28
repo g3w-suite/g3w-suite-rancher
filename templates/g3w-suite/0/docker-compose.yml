@@ -64,6 +64,8 @@ services:
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
+    links:
+      - django
     # tty: true
     labels:
         org.gis3w.component: nginx
